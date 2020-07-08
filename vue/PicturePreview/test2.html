@@ -1,0 +1,32 @@
+<div class="form-group" id="image">
+  <label for="photo">写真</label>
+  <input type="file" name="src" @change="onFile" />
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script>
+  new Vue({
+    el: "#image",
+    data: {
+      photos: [],
+      fileIndex: [1, 2, 3],
+    },
+    methods: {
+      buildinput(index) {
+        let html = `<div data-index="${index}" class="js-file_group">
+                                <input type="file" name="src[${index}]" @change='onFile'>
+                                <div class="js-remove" @change='delete_image'>削除</div>
+                              </div>`;
+        return html;
+      },
+
+      onFile(e) {
+        this.photos = e.target.files;
+        $("#image").append(this.buildinput(this.fileIndex[0]));
+      },
+      delete_image() {
+        console.log("テスト");
+      },
+    },
+  });
+</script>
