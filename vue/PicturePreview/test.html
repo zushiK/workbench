@@ -1,0 +1,52 @@
+<!-- https://fujiten3.hatenablog.com/entry/2019/07/10/133132 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="form-group" id="image">
+      <label for="photo">写真</label>
+      <input type="file" name="src" @change="onFile" />
+      <div v-for="photo in photos" :key="photo.index">
+        <img :src="photo" alt="" />
+        <input type="file" name="src" @change="onFile" />
+        <div class="js-remove" @change="delete_image">削除</div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      new Vue({
+        el: "#image",
+        data: {
+          photos: [],
+        },
+        methods: {
+          getBase64(file) {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = (error) => reject(error);
+            });
+          },
+          onFile(e) {
+            const images = e.target.files || e.dataTransfer.files;
+            this.getBase64(images[0])
+              .then((image) => this.photos.push(image))
+              .catch((error) =>
+                this.setError(error, "画像のアップロードに失敗しました。")
+              );
+          },
+          delete_image() {
+            console.log("テスト");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
