@@ -6,7 +6,7 @@ test1();
 
 
 function test1(){
-    let test = "1";
+    const test = "1";
     const st_a = performance.now(); // 開始時間
         for (let index = 0; index < $loop_count; index++) {
             parseInt(test) === 1
